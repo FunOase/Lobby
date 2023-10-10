@@ -1,0 +1,30 @@
+name: Lobby
+version: '${project.version}'
+main: com.rappytv.lobby.LobbyPlugin
+api-version: '1.19'
+
+permissions:
+  lobby.blocks.place:
+    default: op
+  lobby.blocks.break:
+    default: op
+  lobby.items.move:
+    default: op
+  lobby.items.pickup:
+    default: op
+  lobby.items.drop:
+    default: op
+  lobby.attack:
+    default: op
+  lobby.attack.block:
+    default: op
+  lobby.teleporter.team:
+    default: op
+
+  lobby.gui.hopper:
+    default: op
+
+  lobby.page.default:
+    default: true
+  lobby.page.*:
+    default: op

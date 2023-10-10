@@ -1,0 +1,39 @@
+# Available options (with their required types):
+# label      - The item's name
+# type       - The action type (none, server, page)
+# material   - The item's material type
+# enchanted  - If the item should glimmer
+# permission - The permission required to see the item
+# lore       - A string list listing the item lore
+# server     - To what server the item should send you (requires 'server' type)
+# page       - To what teleporter page the item should send you (requires 'page' type)
+
+teleporter:
+  default:
+    12:
+      label: §cSoon!
+      type: none
+      material: barrier
+    14:
+      label: §a§lCitybuild
+      type: server
+      material: grass_block
+      server: citybuild-1
+      enchanted: true
+    16:
+      label: §cSoon!
+      type: none
+      material: barrier
+    27:
+      label: §4§lTeam-Server
+      type: page
+      page: team
+      material: compass
+      permission: lobby.page.team
+      enchanted: true
+  team:
+    19:
+      label: §7Zurück
+      type: page
+      page: default
+      material: arrow
