@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+@SuppressWarnings("ConstantConditions")
 public class InventoryClickListener implements Listener {
 
     private final LobbyPlugin plugin;
@@ -22,13 +23,13 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        if(!(e.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) e.getWhoClicked();
+        if(!(e.getWhoClicked() instanceof Player player)) return;
         if(e.getCurrentItem() == null || e.getCurrentItem().getItemMeta() == null) return;
 
         String title = e.getView().getTitle();
+        Teleporter teleporter = new Teleporter();
 
-        if(title.equalsIgnoreCase(new Teleporter().getItemMeta().getDisplayName())) {
+        if(teleporter.getItemMeta() != null && title.equalsIgnoreCase(teleporter.getItemMeta().getDisplayName())) {
             e.setCancelled(true);
 
             String page = TeleporterInventory.page.get(player);
@@ -48,7 +49,10 @@ public class InventoryClickListener implements Listener {
             }
             String type = section.contains("type") ? section.getString("type").toLowerCase() : "none";
             switch(type) {
-                case "server" -> sendPlayerToServer(player, section.getString("server"));
+                case "server" -> {
+                    player.closeInventory();
+                    sendPlayerToServer(player, section.getString("server"));
+                }
                 case "page" -> {
                     String destination = section.getString("page");
                     if(destination == null || !plugin.getConfig().isConfigurationSection("teleporter." + destination)) {
@@ -62,11 +66,7 @@ public class InventoryClickListener implements Listener {
                     }
                     player.openInventory(inventory);
                 }
-                default -> {
-                    return;
-                }
             }
-            player.closeInventory();
         } else {
             if(!player.hasPermission("lobby.items.move")) {
                 e.setCancelled(true);
