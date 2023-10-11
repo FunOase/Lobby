@@ -1,3 +1,11 @@
+spawn:
+  world: world
+  x: 0
+  y: 100
+  z: 0
+  yaw: 0
+  pitch: 0
+
 # Available options (with their required types):
 # label      - The item's name
 # type       - The action type (none, server, page)
