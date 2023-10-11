@@ -3,6 +3,7 @@ package com.rappytv.lobby.listeners;
 import com.rappytv.lobby.LobbyPlugin;
 import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.items.Teleporter;
+import com.rappytv.lobby.scoreboard.SidebarScoreboard;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class PlayerListener implements Listener {
 
         sendToSpawn(player);
         setPlayerInventory(player);
-//        new PlayerScoreboard(event.getPlayer());
+        new SidebarScoreboard(event.getPlayer());
         player.setFoodLevel(20);
         player.setHealth(20.0);
     }
