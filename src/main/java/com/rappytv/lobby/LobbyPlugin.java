@@ -1,5 +1,6 @@
 package com.rappytv.lobby;
 
+import com.rappytv.lobby.command.LobbyCommand;
 import com.rappytv.lobby.listeners.BlockListener;
 import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
@@ -17,6 +18,9 @@ public final class LobbyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Save config
+        saveDefaultConfig();
+
         // Set spawn
         spawn = new Location(
                 Bukkit.getWorld(Objects.requireNonNull(getConfig().getString("spawn.world"), "World name not set!")),
@@ -27,7 +31,11 @@ public final class LobbyPlugin extends JavaPlugin {
                 (float) getConfig().getDouble("spawn.pitch")
         );
 
+        // Plugin channel
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         // Register command
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCommand(this));
 
         // Register events
         PluginManager pm = Bukkit.getPluginManager();
