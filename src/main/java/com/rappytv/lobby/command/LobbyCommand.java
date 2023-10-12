@@ -1,7 +1,6 @@
 package com.rappytv.lobby.command;
 
 import com.rappytv.lobby.LobbyPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +24,7 @@ public class LobbyCommand implements CommandExecutor, TabExecutor {
             return false;
         }
         plugin.reloadConfig();
+        plugin.setSpawn();
         sender.sendMessage(LobbyPlugin.prefix + "§7Die Config wurde neu geladen!");
         return true;
     }

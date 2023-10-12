@@ -1,6 +1,7 @@
 package com.rappytv.lobby;
 
 import com.rappytv.lobby.command.LobbyCommand;
+import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.listeners.BlockListener;
 import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
@@ -24,20 +25,16 @@ public final class LobbyPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         // Set spawn
-        spawn = new Location(
-                Bukkit.getWorld(Objects.requireNonNull(getConfig().getString("spawn.world"), "World name not set!")),
-                getConfig().getDouble("spawn.x"),
-                getConfig().getDouble("spawn.y"),
-                getConfig().getDouble("spawn.z"),
-                (float) getConfig().getDouble("spawn.yaw"),
-                (float) getConfig().getDouble("spawn.pitch")
-        );
+        setSpawn();
 
         // Plugin channel
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         // Register command
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCommand(this));
+
+        // Register TeleporterInventory
+        TeleporterInventory.setInstance(this);
 
         try {
             Class.forName("com.rappytv.scoreboard.ScoreboardBuilder");
@@ -65,5 +62,16 @@ public final class LobbyPlugin extends JavaPlugin {
 
     public Location getSpawn() {
         return spawn;
+    }
+
+    public void setSpawn() {
+        this.spawn = new Location(
+                Bukkit.getWorld(Objects.requireNonNull(getConfig().getString("spawn.world"), "World name not set!")),
+                getConfig().getDouble("spawn.x"),
+                getConfig().getDouble("spawn.y"),
+                getConfig().getDouble("spawn.z"),
+                (float) getConfig().getDouble("spawn.yaw"),
+                (float) getConfig().getDouble("spawn.pitch")
+        );
     }
 }
