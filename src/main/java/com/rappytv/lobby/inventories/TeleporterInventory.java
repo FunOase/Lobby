@@ -43,7 +43,7 @@ public class TeleporterInventory {
             if(slot.contains("permission") && !player.hasPermission(slot.getString("permission"))) continue;
 
             try {
-                String name = slot.contains("name") ? slot.getString("name") : String.format("§cName not set for slot %s on page %s", i + 1 + "", page);
+                String name = slot.contains("label") ? slot.getString("label") : String.format("§cName not set for slot %s on page %s", i + 1 + "", page);
                 Material material = slot.contains("material") ? Material.matchMaterial(slot.getString("material")) : Material.BARRIER;
                 ArrayList<String> lore = new ArrayList<>(slot.getStringList("lore"));
                 boolean enchanted = slot.contains("enchanted") && slot.getBoolean("enchanted");
@@ -57,8 +57,9 @@ public class TeleporterInventory {
                 ));
             }
         }
-        for (int i = 0; i < inventory.getSize(); i++)
-            inventory.setItem(i, new CustomItem("§0", Material.GRAY_STAINED_GLASS_PANE, null, false));
+        for(int i = 0; i < inventory.getSize(); i++)
+            if(inventory.getItem(i) == null)
+                inventory.setItem(i, new CustomItem("§0", Material.GRAY_STAINED_GLASS_PANE, null, false));
 
         return inventory;
     }
