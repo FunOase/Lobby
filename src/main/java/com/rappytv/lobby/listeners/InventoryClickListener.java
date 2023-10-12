@@ -24,7 +24,6 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         if(!(e.getWhoClicked() instanceof Player player)) return;
-        if(e.getCurrentItem() == null || e.getCurrentItem().getItemMeta() == null) return;
 
         String title = e.getView().getTitle();
         Teleporter teleporter = new Teleporter();
@@ -34,17 +33,18 @@ public class InventoryClickListener implements Listener {
 
             String page = TeleporterInventory.page.get(player);
             if(page == null) {
+                player.closeInventory();
                 player.sendMessage(LobbyPlugin.prefix + "§cUngültige Seite!");
                 return;
             }
-            int slot = e.getSlot();
-            ConfigurationSection section = plugin.getConfig().getConfigurationSection("teleporter." + page + (slot + 1));
+            int slot = e.getRawSlot();
+            ConfigurationSection section = plugin.getConfig().getConfigurationSection("teleporter." + page + "." + (slot + 1));
 
             if(section == null) return;
 
-            boolean hasPermission = section.contains("permission") && player.hasPermission(section.getString("permission"));
-            if(!hasPermission) {
-                player.hasPermission(LobbyPlugin.prefix + "§cDazu hast du keine Rechte!");
+            boolean missingPermission = section.contains("permission") && !player.hasPermission(section.getString("permission"));
+            if(missingPermission) {
+                player.sendMessage(LobbyPlugin.prefix + "§cDazu hast du keine Rechte!");
                 return;
             }
             String type = section.contains("type") ? section.getString("type").toLowerCase() : "none";
