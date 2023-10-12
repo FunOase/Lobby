@@ -81,7 +81,13 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage("");
         event.setDroppedExp(0);
+        event.setKeepInventory(true);
         event.getDrops().clear();
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        event.setRespawnLocation(plugin.getSpawn());
     }
 
     @EventHandler
