@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -66,7 +67,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent event) {
+    public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player) && !(event.getDamager() instanceof Player)) return;
         Player player = (Player) event.getEntity();
         Player attacker = (Player) event.getDamager();
@@ -75,6 +76,12 @@ public class PlayerListener implements Listener {
                 event.setCancelled(true);
         } else
             event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+        if(!(event.getEntity() instanceof Player)) return;
+        event.setCancelled(event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK);
     }
 
     @EventHandler
