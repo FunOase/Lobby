@@ -32,7 +32,7 @@ public class PlayerListener implements Listener {
 
         sendToSpawn(player);
         setPlayerInventory(player);
-        new SidebarScoreboard(event.getPlayer());
+        if(LobbyPlugin.usingScoreboardApi) new SidebarScoreboard(event.getPlayer());
         player.setFoodLevel(20);
         player.setHealth(20.0);
     }

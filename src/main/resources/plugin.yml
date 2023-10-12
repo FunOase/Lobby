@@ -2,6 +2,8 @@ name: Lobby
 version: '${project.version}'
 main: com.rappytv.lobby.LobbyPlugin
 api-version: '1.19'
+softdepend:
+  - ScoreboardAPI
 
 commands:
   lobby:
