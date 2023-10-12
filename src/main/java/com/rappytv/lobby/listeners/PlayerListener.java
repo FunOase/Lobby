@@ -68,9 +68,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
-        Player attacker = (Player) event.getDamager();
+        if (!(event.getEntity() instanceof Player player) || !(event.getDamager() instanceof Player attacker)) return;
         if(attacker.hasPermission("lobby.attack")) {
             if(player.hasPermission("lobby.attack.block"))
                 event.setCancelled(true);
