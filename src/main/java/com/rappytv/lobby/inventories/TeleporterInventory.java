@@ -18,9 +18,11 @@ public class TeleporterInventory {
     private static LobbyPlugin plugin;
     public static Map<Player, String> page = new HashMap<>();
 
-    public TeleporterInventory(LobbyPlugin lobbyPlugin) {
+    public static void setInstance(LobbyPlugin lobbyPlugin) {
         plugin = lobbyPlugin;
     }
+
+    private TeleporterInventory() {}
 
     public static Inventory get(Player player) {
         return get(player, "default");

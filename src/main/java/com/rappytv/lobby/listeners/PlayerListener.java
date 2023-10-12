@@ -51,8 +51,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void openInventory(InventoryOpenEvent event) {
         Player player = (Player) event.getPlayer();
-        if(event.getInventory().getType() != InventoryType.PLAYER && !player.hasPermission("lobby.gui"))
-            event.setCancelled(true);
+        if(!player.hasPermission("lobby.gui"))
+            event.setCancelled(event.getInventory().getType() != InventoryType.CHEST);
     }
 
     public void sendToSpawn(Player player) {
