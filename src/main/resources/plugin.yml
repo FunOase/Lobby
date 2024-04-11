@@ -1,9 +1,9 @@
 name: Lobby
 version: '${project.version}'
 main: com.rappytv.lobby.LobbyPlugin
-api-version: '1.19'
-softdepend:
-  - ScoreboardAPI
+api-version: '1.20'
+depend:
+  - RyLib
 
 commands:
   lobby:
@@ -16,21 +16,17 @@ permissions:
       lobby.reload:
         default: op
 
-      lobby.blocks.place:
+      lobby.block.place:
         default: op
-      lobby.blocks.break:
+      lobby.block.break:
         default: op
-      lobby.items.move:
+      lobby.item.move:
         default: op
-      lobby.items.pickup:
+      lobby.item.pickup:
         default: op
-      lobby.items.drop:
+      lobby.item.drop:
         default: op
       lobby.attack:
-        default: op
-      lobby.attack.block:
-        default: op
-      lobby.teleporter.team:
         default: op
 
       lobby.gui.hopper:
