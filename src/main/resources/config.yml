@@ -11,6 +11,10 @@ spawn:
 i18n:
   reload:
     success: '<prefix> &aConfig erfolgreich neugeladen!'
+  teleporter:
+    unknownPage: '<prefix> &cUnbekannte Seite!'
+    checkConsole: '<prefix> &cEin Fehler ist aufgetreten. Bitte kontaktiere den Support!'
+    connecting: '<prefix> Verbinde...'
 
 # Available options (with their required types):
 # label      - The item's name

@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.rappytv.lobby.LobbyPlugin;
 import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.items.Teleporter;
+import com.rappytv.rylib.RyLib;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +35,7 @@ public class InventoryClickListener implements Listener {
             String page = TeleporterInventory.page.get(player);
             if(page == null) {
                 player.closeInventory();
-                player.sendMessage(LobbyPlugin.prefix + "§cUngültige Seite!");
+                player.sendMessage(plugin.i18n().translate("teleporter.unknownPage"));
                 return;
             }
             int slot = e.getRawSlot();
@@ -44,7 +45,7 @@ public class InventoryClickListener implements Listener {
 
             boolean missingPermission = section.contains("permission") && !player.hasPermission(section.getString("permission"));
             if(missingPermission) {
-                player.sendMessage(LobbyPlugin.prefix + "§cDazu hast du keine Rechte!");
+                player.sendMessage(RyLib.get().i18n().translate("noPermission"));
                 return;
             }
             String type = section.contains("type") ? section.getString("type").toLowerCase() : "none";
@@ -56,12 +57,12 @@ public class InventoryClickListener implements Listener {
                 case "page" -> {
                     String destination = section.getString("page");
                     if(destination == null || !plugin.getConfig().isConfigurationSection("teleporter." + destination)) {
-                        player.sendMessage(LobbyPlugin.prefix + "§cUnbekannte Seite!");
+                        player.sendMessage(plugin.i18n().translate("teleporter.unknownPage"));
                         return;
                     }
                     Inventory inventory = TeleporterInventory.get(player, destination);
                     if(inventory == null) {
-                        player.sendMessage(LobbyPlugin.prefix + "§cEin Fehler ist aufgetreten. Bitte überprüfe die Konsole!");
+                        player.sendMessage(plugin.i18n().translate("teleporter.checkConsole"));
                         return;
                     }
                     player.openInventory(inventory);
@@ -75,7 +76,7 @@ public class InventoryClickListener implements Listener {
     }
 
     private void sendPlayerToServer(Player player, String server) {
-        player.sendMessage(LobbyPlugin.prefix + "§bVerbinde...");
+        player.sendMessage(plugin.i18n().translate("teleporter.connecting"));
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(server);
