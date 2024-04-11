@@ -5,7 +5,8 @@ import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.listeners.BlockListener;
 import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
-import com.rappytv.lobby.scoreboard.SidebarScoreboard;
+import com.rappytv.rylib.util.I18n;
+import com.rappytv.rylib.util.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
@@ -15,14 +16,24 @@ import java.util.Objects;
 
 public final class LobbyPlugin extends JavaPlugin {
 
-    public static String prefix = "§9Lobby §8» §7";
     private Location spawn;
-    public static boolean usingScoreboardApi;
+    private I18n i18n;
 
     @Override
     public void onEnable() {
         // Save config
         saveDefaultConfig();
+
+        i18n = new I18n(this);
+        new UpdateChecker<>(
+                this,
+                () -> getConfig().getBoolean("checkForUpdates")
+        ).setArtifactFormat(
+                "ci.rappytv.com",
+                getName(),
+                "com.rappytv",
+                "Minecraft Plugins"
+        );
 
         // Set spawn
         setSpawn();
@@ -31,24 +42,10 @@ public final class LobbyPlugin extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         // Register command
-        Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCommand(this));
+        new LobbyCommand("lobby", this);
 
         // Register TeleporterInventory
         TeleporterInventory.setInstance(this);
-
-        try {
-            Class.forName("com.rappytv.scoreboard.ScoreboardBuilder");
-            usingScoreboardApi = true;
-            getLogger().info("ScoreboardAPI is installed.");
-        } catch (ClassNotFoundException e) {
-            usingScoreboardApi = false;
-            getLogger().info("ScoreboardAPI is not installed.");
-        }
-
-        // Init scoreboard
-        if(usingScoreboardApi) {
-            SidebarScoreboard.init();
-        }
 
         // Register events
         PluginManager pm = Bukkit.getPluginManager();
@@ -57,8 +54,9 @@ public final class LobbyPlugin extends JavaPlugin {
         pm.registerEvents(new PlayerListener(this), this);
     }
 
-    @Override
-    public void onDisable() {}
+    public I18n i18n() {
+        return i18n;
+    }
 
     public Location getSpawn() {
         return spawn;

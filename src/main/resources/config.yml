@@ -1,3 +1,5 @@
+checkForUpdates: true
+
 spawn:
   world: world
   x: 0.5
