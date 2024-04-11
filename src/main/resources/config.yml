@@ -12,7 +12,7 @@ i18n:
   reload:
     success: '<prefix> &aConfig erfolgreich neugeladen!'
   teleporter:
-    name: '#5e17eb&lT#5b42eb&le#5865eb&ll#577feb&le#549ceb&lp#53b8ec&lo#53b8ec&lr#53b8ec&lt#53b8ec&le#4efeec&lr'
+    name: '#5E17EB&lT#5C30EB&le#5A4AEB&ll#5863EA&le#567CEA&lp#5596EA&lo#53AFEA&lr#51C8E9&lt#4FE2E9&le#4DFBE9&lr'
     unknownPage: '<prefix> &cUnbekannte Seite!'
     checkConsole: '<prefix> &cEin Fehler ist aufgetreten. Bitte kontaktiere den Support!'
     connecting: '<prefix> Verbinde...'
