@@ -61,13 +61,23 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>rappytv-repo</id>
+            <url>https://repo.rappytv.com/repository/minecraft-plugins</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.rappytv</groupId>
+            <artifactId>RyLib</artifactId>
+            <version>1.0.51</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
