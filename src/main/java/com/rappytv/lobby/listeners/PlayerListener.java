@@ -66,7 +66,7 @@ public class PlayerListener implements Listener {
     public void setPlayerInventory(Player player) {
         Inventory inv = player.getInventory();
         inv.clear();
-        inv.setItem(4, new Teleporter());
+        inv.setItem(4, new Teleporter(plugin));
     }
 
     @EventHandler
@@ -105,15 +105,17 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onItemPickup(PlayerPickupItemEvent event) {
         event.setCancelled(!event.getPlayer().hasPermission("lobby.items.pickup"));
     }
 
+    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Teleporter item = new Teleporter();
+        Teleporter item = new Teleporter(plugin);
 
         if(event.getItem() == null || event.getItem().getItemMeta() == null) return;
         if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {

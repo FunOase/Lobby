@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-@SuppressWarnings("ConstantConditions")
 public class InventoryClickListener implements Listener {
 
     private final LobbyPlugin plugin;
@@ -22,12 +21,13 @@ public class InventoryClickListener implements Listener {
         this.plugin = plugin;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         if(!(e.getWhoClicked() instanceof Player player)) return;
 
         String title = e.getView().getTitle();
-        Teleporter teleporter = new Teleporter();
+        Teleporter teleporter = new Teleporter(plugin);
 
         if(teleporter.getItemMeta() != null && title.equalsIgnoreCase(teleporter.getItemMeta().getDisplayName())) {
             e.setCancelled(true);

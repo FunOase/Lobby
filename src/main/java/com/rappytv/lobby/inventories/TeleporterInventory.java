@@ -28,8 +28,9 @@ public class TeleporterInventory {
         return get(player, "default");
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static Inventory get(Player player, String page) {
-        Inventory inventory = Bukkit.createInventory(null, 27, new Teleporter().getItemMeta().getDisplayName());
+        Inventory inventory = Bukkit.createInventory(null, 27, new Teleporter(plugin).getItemMeta().getDisplayName());
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("teleporter." + page);
         if(section == null) {
             plugin.getLogger().severe("Config section teleporter." + page + " cannot be null!");
