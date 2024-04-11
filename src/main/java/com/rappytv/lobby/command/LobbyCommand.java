@@ -1,6 +1,7 @@
 package com.rappytv.lobby.command;
 
 import com.rappytv.lobby.LobbyPlugin;
+import com.rappytv.rylib.RyLib;
 import com.rappytv.rylib.util.Command;
 import org.bukkit.command.CommandSender;
 
@@ -15,12 +16,12 @@ public class LobbyCommand extends Command<LobbyPlugin> {
     @Override
     public void execute(CommandSender sender, String prefix, String[] args) {
         if(!sender.hasPermission("lobby.reload")) {
-            sender.sendMessage(LobbyPlugin.prefix + "§cDazu hast du keine Berechtigung!");
+            sender.sendMessage(RyLib.get().i18n().translate("noPermission"));
             return;
         }
         plugin.reloadConfig();
         plugin.setSpawn();
-        sender.sendMessage(LobbyPlugin.prefix + "§7Die Config wurde neu geladen!");
+        sender.sendMessage(plugin.i18n().translate("reload.success"));
     }
 
     @Override

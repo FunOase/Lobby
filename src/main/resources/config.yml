@@ -8,6 +8,10 @@ spawn:
   yaw: 0
   pitch: 0
 
+i18n:
+  reload:
+    success: '<prefix> &aConfig erfolgreich neugeladen!'
+
 # Available options (with their required types):
 # label      - The item's name
 # type       - The action type (none, server, page)
