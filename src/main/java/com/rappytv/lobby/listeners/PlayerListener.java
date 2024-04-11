@@ -3,7 +3,7 @@ package com.rappytv.lobby.listeners;
 import com.rappytv.lobby.LobbyPlugin;
 import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.items.Teleporter;
-import com.rappytv.lobby.scoreboard.SidebarScoreboard;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +33,6 @@ public class PlayerListener implements Listener {
 
         sendToSpawn(player);
         setPlayerInventory(player);
-        if(LobbyPlugin.usingScoreboardApi) new SidebarScoreboard(event.getPlayer());
         player.setFoodLevel(20);
         player.setHealth(20.0);
     }
@@ -57,7 +56,11 @@ public class PlayerListener implements Listener {
     }
 
     public void sendToSpawn(Player player) {
-        player.teleport(plugin.getSpawn());
+        Bukkit.getScheduler().runTaskLater(
+                plugin,
+                () -> player.teleport(plugin.getSpawn()),
+                1L
+        );
     }
 
     public void setPlayerInventory(Player player) {
@@ -68,12 +71,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player player) || !(event.getDamager() instanceof Player attacker)) return;
-        if(attacker.hasPermission("lobby.attack")) {
-            if(player.hasPermission("lobby.attack.block"))
-                event.setCancelled(true);
-        } else
-            event.setCancelled(true);
+        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player attacker)) return;
+        event.setCancelled(!attacker.hasPermission("lobby.attack"));
     }
 
     @EventHandler
@@ -114,7 +113,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-
         Teleporter item = new Teleporter();
 
         if(event.getItem() == null || event.getItem().getItemMeta() == null) return;
