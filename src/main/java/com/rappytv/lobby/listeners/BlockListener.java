@@ -10,15 +10,15 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        e.setCancelled(!p.hasPermission("lobby.blocks.place"));
+        e.setCancelled(!player.hasPermission("lobby.block.place"));
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
 
-        e.setCancelled(!p.hasPermission("lobby.blocks.break"));
+        e.setCancelled(!player.hasPermission("lobby.block.break"));
     }
 }
