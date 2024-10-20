@@ -20,6 +20,8 @@ permissions:
         default: op
       lobby.block.break:
         default: op
+      lobby.block.interact:
+        default: op
       lobby.item.move:
         default: op
       lobby.item.pickup:

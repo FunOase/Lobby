@@ -111,12 +111,22 @@ public class PlayerListener implements Listener {
         event.setCancelled(!event.getPlayer().hasPermission("lobby.items.pickup"));
     }
 
+    @EventHandler
+    public void onArmorStandManipulate(PlayerArmorStandManipulateEvent event) {
+        Player player = event.getPlayer();
+
+        event.setCancelled(!player.hasPermission("lobby.block.interact"));
+    }
+
     @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Teleporter item = new Teleporter(plugin);
 
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(!player.hasPermission("lobby.block.interact"));
+        }
         if(event.getItem() == null || event.getItem().getItemMeta() == null) return;
         if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if(event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(item.getItemMeta().getDisplayName()) && player.hasPermission("lobby.page.default")) {
