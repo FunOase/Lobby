@@ -44,10 +44,7 @@ public class InventoryClickListener implements Listener {
             if(section == null) return;
 
             boolean missingPermission = section.contains("permission") && !player.hasPermission(section.getString("permission"));
-            if(missingPermission) {
-                player.sendMessage(RyLib.get().i18n().translate("noPermission"));
-                return;
-            }
+            if(missingPermission) return;
             String type = section.contains("type") ? section.getString("type").toLowerCase() : "none";
             switch(type) {
                 case "server" -> {
