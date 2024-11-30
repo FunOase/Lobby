@@ -1,0 +1,14 @@
+{
+    "lobby": {
+        "commands": {
+            "reload": {
+                "success": "<green>The config was reloaded successfully!"
+            }
+        },
+        "listeners": {
+            "connecting": "<gray>Connecting...",
+            "unknown_page": "<red>Unknown page!",
+            "check_console": "<red>An unknown error occurred! Please check the console."
+        }
+    }
+}
