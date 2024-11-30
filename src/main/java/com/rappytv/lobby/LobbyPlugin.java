@@ -2,6 +2,8 @@ package com.rappytv.lobby;
 
 import com.rappytv.lobby.command.LobbyCommand;
 import com.rappytv.lobby.inventories.TeleporterInventory;
+import com.rappytv.lobby.items.InventoryManager;
+import com.rappytv.lobby.items.ItemManager;
 import com.rappytv.lobby.listeners.BlockListener;
 import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
@@ -16,12 +18,17 @@ import java.util.Objects;
 public final class LobbyPlugin extends JavaPlugin {
 
     private Location spawn;
+    private InventoryManager inventoryManager;
+    private ItemManager itemManager;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         Sahara.get().getI18nManager().saveTranslations(this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+        this.inventoryManager = new InventoryManager(this);
+        this.itemManager = new ItemManager(this);
 
         // Set spawn
         setSpawn();
@@ -44,6 +51,14 @@ public final class LobbyPlugin extends JavaPlugin {
 
     public Location getSpawn() {
         return spawn;
+    }
+
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 
     public void setSpawn() {
