@@ -7,8 +7,7 @@
         },
         "listeners": {
             "connecting": "<gray>Connecting...",
-            "unknown_page": "<red>Unknown page!",
-            "check_console": "<red>An unknown error occurred! Please check the console."
+            "unknown_page": "<red>Unknown page!"
         }
     }
 }

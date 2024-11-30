@@ -7,8 +7,7 @@
         },
         "listeners": {
             "connecting": "<gray>Verbinde...",
-            "unknown_page": "<red>Unbekannte Seite!",
-            "check_console": "<red>Ein unbekannter Fehler ist aufgetreten! Bitte überprüfe die Konsole."
+            "unknown_page": "<red>Unbekannte Seite!"
         }
     }
 }
