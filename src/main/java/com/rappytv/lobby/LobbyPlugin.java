@@ -1,7 +1,6 @@
 package com.rappytv.lobby;
 
 import com.rappytv.lobby.command.LobbyCommand;
-import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.items.InventoryManager;
 import com.rappytv.lobby.items.ItemManager;
 import com.rappytv.lobby.listeners.BlockListener;
@@ -32,9 +31,6 @@ public final class LobbyPlugin extends JavaPlugin {
 
         // Set spawn
         setSpawn();
-
-        // Register TeleporterInventory
-        TeleporterInventory.setInstance(this);
 
         // Register commands & events
         new LobbyCommand("lobby", this).register();
