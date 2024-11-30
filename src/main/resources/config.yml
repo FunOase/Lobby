@@ -1,4 +1,7 @@
-checkForUpdates: true
+rules:
+  disable_join_messages: false
+  disable_quit_messages: false
+  disable_death_messages: false
 
 spawn:
   world: world
