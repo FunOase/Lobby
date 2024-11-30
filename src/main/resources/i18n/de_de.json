@@ -1,0 +1,14 @@
+{
+    "lobby": {
+        "commands": {
+            "reload": {
+                "success": "<green>Die Config wurde erfolgreich neu geladen!"
+            }
+        },
+        "listeners": {
+            "connecting": "<gray>Verbinde...",
+            "unknown_page": "<red>Unbekannte Seite!",
+            "check_console": "<red>Ein unbekannter Fehler ist aufgetreten! Bitte überprüfe die Konsole."
+        }
+    }
+}
