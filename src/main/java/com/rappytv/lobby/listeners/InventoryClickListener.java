@@ -3,10 +3,8 @@ package com.rappytv.lobby.listeners;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.rappytv.lobby.LobbyPlugin;
-import com.rappytv.lobby.inventories.TeleporterInventory;
-import com.rappytv.lobby.items.Teleporter;
-import com.rappytv.rylib.RyLib;
-import org.bukkit.configuration.ConfigurationSection;
+import com.rappytv.lobby.items.ItemManager;
+import net.funoase.sahara.bukkit.i18n.I18n;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,57 +21,32 @@ public class InventoryClickListener implements Listener {
 
     @SuppressWarnings("ConstantConditions")
     @EventHandler
-    public void onClick(InventoryClickEvent e) {
-        if(!(e.getWhoClicked() instanceof Player player)) return;
+    public void onClick(InventoryClickEvent event) {
+        if(!(event.getWhoClicked() instanceof Player player)) return;
 
-        String title = e.getView().getTitle();
-        Teleporter teleporter = new Teleporter(plugin);
-
-        if(teleporter.getItemMeta() != null && title.equalsIgnoreCase(teleporter.getItemMeta().getDisplayName())) {
-            e.setCancelled(true);
-
-            String page = TeleporterInventory.page.get(player);
-            if(page == null) {
+        ItemManager.ItemAction action = plugin.getItemManager().getItemAction(event.getCurrentItem());
+        if(action == null) return;
+        event.setCancelled(true);
+        if(action.action() == ItemManager.ItemAction.Action.NONE) return;
+        switch (action.action()) {
+            case GUI -> {
+                String gui = action.value();
+                Inventory inventory = plugin.getInventoryManager().getInventory(gui, player);
+                if(inventory == null) {
+                    player.sendMessage(I18n.component(player, "lobby.listeners.unknown_page"));
+                    return;
+                }
+                player.openInventory(inventory);
+            }
+            case SERVER -> {
                 player.closeInventory();
-                player.sendMessage(plugin.i18n().translate("teleporter.unknownPage"));
-                return;
-            }
-            int slot = e.getRawSlot();
-            ConfigurationSection section = plugin.getConfig().getConfigurationSection("teleporter." + page + "." + (slot + 1));
-
-            if(section == null) return;
-
-            boolean missingPermission = section.contains("permission") && !player.hasPermission(section.getString("permission"));
-            if(missingPermission) return;
-            String type = section.contains("type") ? section.getString("type").toLowerCase() : "none";
-            switch(type) {
-                case "server" -> {
-                    player.closeInventory();
-                    sendPlayerToServer(player, section.getString("server"));
-                }
-                case "page" -> {
-                    String destination = section.getString("page");
-                    if(destination == null || !plugin.getConfig().isConfigurationSection("teleporter." + destination)) {
-                        player.sendMessage(plugin.i18n().translate("teleporter.unknownPage"));
-                        return;
-                    }
-                    Inventory inventory = TeleporterInventory.get(player, destination);
-                    if(inventory == null) {
-                        player.sendMessage(plugin.i18n().translate("teleporter.checkConsole"));
-                        return;
-                    }
-                    player.openInventory(inventory);
-                }
-            }
-        } else {
-            if(!player.hasPermission("lobby.items.move")) {
-                e.setCancelled(true);
+                sendPlayerToServer(player, action.value());
             }
         }
     }
 
     private void sendPlayerToServer(Player player, String server) {
-        player.sendMessage(plugin.i18n().translate("teleporter.connecting"));
+        player.sendMessage(I18n.component(player, "lobby.listeners.connecting"));
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(server);
