@@ -8,14 +8,10 @@ spawn:
   yaw: 0
   pitch: 0
 
-i18n:
-  reload:
-    success: '<prefix> &aConfig erfolgreich neugeladen!'
-  teleporter:
-    name: '#5E17EB&lT#5C30EB&le#5A4AEB&ll#5863EA&le#567CEA&lp#5596EA&lo#53AFEA&lr#51C8E9&lt#4FE2E9&le#4DFBE9&lr'
-    unknownPage: '<prefix> &cUnbekannte Seite!'
-    checkConsole: '<prefix> &cEin Fehler ist aufgetreten. Bitte kontaktiere den Support!'
-    connecting: '<prefix> Verbinde...'
+# Here you can customize the player's inventory
+# As the key, put the slot and as the value use an item from the 'items' config
+inventory:
+  4: teleporter
 
 # Available options (with their required types):
 # label      - The item's name
@@ -27,32 +23,64 @@ i18n:
 # server     - To what server the item should send you (requires 'server' type)
 # page       - To what teleporter page the item should send you (requires 'page' type)
 
-teleporter:
-  default:
-    12:
-      label: §cSoon!
-      type: none
-      material: barrier
-    14:
-      label: §a§lCitybuild
-      type: server
-      material: grass_block
-      server: citybuild-1
-      enchanted: true
-    16:
-      label: §cSoon!
-      type: none
-      material: barrier
-    27:
-      label: §4§lTeam-Server
-      type: page
-      page: team
-      material: compass
-      permission: lobby.page.team
-      enchanted: true
-  team:
-    19:
-      label: §7Zurück
-      type: page
-      page: default
-      material: arrow
+# Here you can build items which are used in guis or in the hotbar
+# For the item name you have to edit the translation files.
+# If you have an item named 'teleporter', the translation key would be 'lobby.items.teleporter'
+# An item consits out of the following properties:
+# - material  - The item material.                            Default: dirt
+# - enchanted - If the item should glow.                      Default: false
+# - action    - What should happen when clicking on the item. Default: none
+#   - none:    Nothing happens
+#   - server:  Connects the player to a BungeeCord subserver.
+#   - gui:     Opens a different gui from the 'gui' config
+# - value     - The value for specific 'action' values.       Default: ''
+#   - action 'none':    You can omit this property
+#   - action 'server':  Put the name of the internal BungeeCord server
+#   - action 'gui':     Put the gui name which should be opened
+items:
+  filler:
+    material: gray_stained_glass_pane
+  teleporter:
+    material: compass
+    enchanted: true
+    action: gui
+    value: teleporter
+  back_teleporter:
+    material: arrow
+    action: gui
+    value: teleporter
+  server_soon:
+    material: barrier
+    enchanted: false
+    action: none
+  server_citybuild:
+    material: grass_block
+    enchanted: true
+    action: server
+    value: citybuild-1
+  server_staff:
+    material: compass
+    permission: lobby.page.team
+    enchanted: true
+    action: gui
+    value: teleporter_staff
+
+# This is an array of menus. Each menu can have a filler and has to specify an amount of rows
+# The filler is basically put into all slots which are omitted in this config. To not use a filler, put 'none'
+# For each slot just use the number as the key and an item from the 'items' config as the value
+# For the gui name you have to edit the translation files.
+# If you have a gui named 'teleporter', the translation key would be 'lobby.guis.teleporter'
+guis:
+  teleporter:
+    rows: 3
+    filler: filler
+    slots:
+      12: soon
+      14: server_citybuild
+      16: soon
+      27: server_staff
+  teleporter_staff:
+    rows: 3
+    filler: filler
+    slots:
+      19: back_teleporter
