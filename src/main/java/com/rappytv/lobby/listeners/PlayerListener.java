@@ -4,6 +4,7 @@ import com.rappytv.lobby.LobbyPlugin;
 import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.items.Teleporter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -70,13 +71,16 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player attacker)) return;
-        event.setCancelled(!attacker.hasPermission("lobby.attack"));
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if(event.getDamager() instanceof Player attacker) {
+            if(event.getEntity() instanceof Player || event.getEntity() instanceof ArmorStand) {
+                event.setCancelled(!attacker.hasPermission("lobby.attack"));
+            }
+        }
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageEvent event) {
+    public void onEntityDamage(EntityDamageEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
         event.setCancelled(event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK);
     }
