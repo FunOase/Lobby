@@ -5,8 +5,7 @@ import com.rappytv.lobby.inventories.TeleporterInventory;
 import com.rappytv.lobby.listeners.BlockListener;
 import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
-import com.rappytv.rylib.util.I18n;
-import com.rappytv.rylib.util.UpdateChecker;
+import net.funoase.sahara.bukkit.Sahara;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
@@ -17,45 +16,30 @@ import java.util.Objects;
 public final class LobbyPlugin extends JavaPlugin {
 
     private Location spawn;
-    private I18n i18n;
 
     @Override
     public void onEnable() {
-        // Save config
         saveDefaultConfig();
-
-        i18n = new I18n(this);
-        new UpdateChecker<>(
-                this,
-                () -> getConfig().getBoolean("checkForUpdates")
-        ).setArtifactFormat(
-                "ci.rappytv.com",
-                getName(),
-                "com.rappytv",
-                "Minecraft Plugins"
-        );
+        Sahara.get().getI18nManager().saveTranslations(this);
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         // Set spawn
         setSpawn();
 
-        // Plugin channel
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        // Register command
-        new LobbyCommand("lobby", this);
-
         // Register TeleporterInventory
         TeleporterInventory.setInstance(this);
 
-        // Register events
+        // Register commands & events
+        new LobbyCommand("lobby", this).register();
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new BlockListener(), this);
         pm.registerEvents(new InventoryClickListener(this), this);
         pm.registerEvents(new PlayerListener(this), this);
     }
 
-    public I18n i18n() {
-        return i18n;
+    @Override
+    public void onDisable() {
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this, "BungeeCord");
     }
 
     public Location getSpawn() {
