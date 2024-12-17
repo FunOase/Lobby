@@ -1,13 +1,14 @@
 package com.rappytv.lobby.items;
 
 import com.rappytv.lobby.LobbyPlugin;
+import net.funoase.sahara.bukkit.Sahara;
 import net.funoase.sahara.bukkit.i18n.I18n;
+import net.funoase.sahara.bukkit.util.ItemInteractionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 public class InventoryManager {
 
@@ -17,15 +18,23 @@ public class InventoryManager {
         this.plugin = plugin;
     }
 
-    @Nullable
-    public Inventory getInventory(String name, Player player) {
-        ConfigurationSection section = plugin.getConfig().getConfigurationSection("guis." + name);
-        if(section == null) return null;
+    public void registerInventories() {
+        ConfigurationSection section = this.plugin.getConfig().getConfigurationSection("guis");
+        if (section == null) return;
+
+        for (String key : section.getKeys(false)) {
+            Sahara.get().getInventoryManager().registerAction("lobby_gui_" + key, ItemInteractionManager.ItemInteractionType.BOTH, (player) -> this.getInventory(key, player));
+        }
+    }
+
+    public void getInventory(String name, Player player) {
+        ConfigurationSection section = this.plugin.getConfig().getConfigurationSection("guis." + name);
+        if (section == null) return;
         int slots = section.getInt("rows", 3) * 9;
         String filler = section.getString("filler", "none");
         Inventory inventory = Bukkit.createInventory(null, slots, I18n.component(player, "lobby.guis." + name));
         ConfigurationSection items = section.getConfigurationSection("slots");
-        if(items == null) return inventory;
+        if (items == null) return;
         for(String itemSlot : items.getKeys(false)) {
             int slot;
             try {
@@ -33,18 +42,17 @@ public class InventoryManager {
             } catch (NumberFormatException e) {
                 continue;
             }
-            ItemStack item = plugin.getItemManager().getItem(items.getString(itemSlot), player);
+            ItemStack item = this.plugin.getItemManager().getItem(items.getString(itemSlot), player);
             if(item == null) continue;
             inventory.setItem(slot, item);
         }
         if(!filler.equalsIgnoreCase("none")) {
-            ItemStack fillerItem = plugin.getItemManager().getItem(filler, player);
-            if(fillerItem == null) return inventory;
+            ItemStack fillerItem = this.plugin.getItemManager().getItem(filler, player);
+            if (fillerItem == null) return;
             for(int i = 0; i < inventory.getSize(); i++) {
                 if(inventory.getItem(i) != null) continue;
                 inventory.setItem(i, fillerItem);
             }
         }
-        return inventory;
     }
 }

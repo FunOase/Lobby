@@ -4,7 +4,6 @@ import com.rappytv.lobby.command.LobbyCommand;
 import com.rappytv.lobby.items.InventoryManager;
 import com.rappytv.lobby.items.ItemManager;
 import com.rappytv.lobby.listeners.BlockListener;
-import com.rappytv.lobby.listeners.InventoryClickListener;
 import com.rappytv.lobby.listeners.PlayerListener;
 import net.funoase.sahara.bukkit.Sahara;
 import org.bukkit.Bukkit;
@@ -22,49 +21,49 @@ public final class LobbyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        this.saveDefaultConfig();
         Sahara.get().getI18nManager().saveTranslations(this);
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         this.inventoryManager = new InventoryManager(this);
         this.itemManager = new ItemManager(this);
 
         // Set spawn
-        setSpawn();
+        this.setSpawn();
+        this.getInventoryManager().registerInventories();
 
         // Register commands & events
         new LobbyCommand("lobby", this).register();
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new BlockListener(), this);
-        pm.registerEvents(new InventoryClickListener(this), this);
         pm.registerEvents(new PlayerListener(this), this);
     }
 
     @Override
     public void onDisable() {
-        getServer().getMessenger().unregisterOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this, "BungeeCord");
     }
 
     public Location getSpawn() {
-        return spawn;
+        return this.spawn;
     }
 
     public InventoryManager getInventoryManager() {
-        return inventoryManager;
+        return this.inventoryManager;
     }
 
     public ItemManager getItemManager() {
-        return itemManager;
+        return this.itemManager;
     }
 
     public void setSpawn() {
         this.spawn = new Location(
-                Bukkit.getWorld(Objects.requireNonNull(getConfig().getString("spawn.world"), "World name not set!")),
-                getConfig().getDouble("spawn.x"),
-                getConfig().getDouble("spawn.y"),
-                getConfig().getDouble("spawn.z"),
-                (float) getConfig().getDouble("spawn.yaw"),
-                (float) getConfig().getDouble("spawn.pitch")
+                Bukkit.getWorld(Objects.requireNonNull(this.getConfig().getString("spawn.world"), "World name not set!")),
+                this.getConfig().getDouble("spawn.x"),
+                this.getConfig().getDouble("spawn.y"),
+                this.getConfig().getDouble("spawn.z"),
+                (float) this.getConfig().getDouble("spawn.yaw"),
+                (float) this.getConfig().getDouble("spawn.pitch")
         );
     }
 }
