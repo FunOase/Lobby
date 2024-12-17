@@ -12,7 +12,8 @@ spawn:
   pitch: 0
 
 # Here you can customize the player's inventory
-# As the key, put the slot and as the value use an item from the 'items' config
+# As the key, put the slot and as the value use an item from the 'items' config.
+# Note: You have to prefix the GUI name with 'lobby_gui_'
 inventory:
   4: teleporter
 
@@ -39,7 +40,7 @@ inventory:
 # - value     - The value for specific 'action' values.       Default: ''
 #   - action 'none':    You can omit this property
 #   - action 'server':  Put the name of the internal BungeeCord server
-#   - action 'gui':     Put the gui name which should be opened
+#   - action 'gui':     Put the gui name which should be opened. Note: You have to prefix the name with 'lobby_gui_'
 items:
   filler:
     material: gray_stained_glass_pane
@@ -47,11 +48,11 @@ items:
     material: compass
     enchanted: true
     action: gui
-    value: teleporter
+    value: lobby_gui_teleporter
   back_teleporter:
     material: arrow
     action: gui
-    value: teleporter
+    value: lobby_gui_teleporter
   server_soon:
     material: barrier
     enchanted: false
@@ -66,7 +67,7 @@ items:
     permission: lobby.page.team
     enchanted: true
     action: gui
-    value: teleporter_staff
+    value: lobby_gui_teleporter_staff
 
 # This is an array of menus. Each menu can have a filler and has to specify an amount of rows
 # The filler is basically put into all slots which are omitted in this config. To not use a filler, put 'none'
