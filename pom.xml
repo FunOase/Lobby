@@ -62,8 +62,8 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>funoase</id>
-            <url>https://repo.funoase.net/plugins</url>
+            <id>funoase-snapshot</id>
+            <url>https://repo.funoase.net/snapshot</url>
         </repository>
     </repositories>
 
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>net.funoase.sahara</groupId>
             <artifactId>Sahara</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
